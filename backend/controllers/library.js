@@ -5,14 +5,14 @@ exports.createBook = async (req, res, next) => {
     const bookObject = JSON.parse(req.body.book);
     const userId = req.auth.userId;
   
-    console.log('bookObject:', bookObject); // Log the book object
+    console.log('bookObject:', bookObject); 
     console.log('userId:', userId); // Log the user ID
   
     try {
       // Create the new book
       const book = new Book({
         ...bookObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/resized_${req.file.filename}`,
       });
   
       console.log('book:', book); // Log the book before saving
@@ -59,7 +59,7 @@ exports.modifyBook = (req, res, next) => {
   const bookObject = req.file
     ? {
         ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/resized/${
+        imageUrl: `${req.protocol}://${req.get('host')}/images/resized_${
           req.file.filename
         }`,
       }

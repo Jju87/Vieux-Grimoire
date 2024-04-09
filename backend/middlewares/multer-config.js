@@ -43,8 +43,9 @@ const processImage = (req, res, next) => {
   
     // Resize and compress image
     sharp(req.file.path)
-      .resize(500)
-      .webp({ quality: 80 })
+    .rotate()
+    .resize({ width: null, height: 500, fit: 'cover', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+    .webp()
       .toFile('images/resized_' + req.file.filename, (err, info) => {
         if (err) {
           console.error(err); // Log any errors from sharp
