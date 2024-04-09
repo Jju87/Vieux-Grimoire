@@ -10,6 +10,7 @@ exports.userSignup = (req, res) => {
                 email: req.body.email,
                 password: hash
             });
+            console.log("nouvel utilisateur : ", user)
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !'}))
                 .catch(error => res.status(400).json({ error }));
@@ -18,6 +19,7 @@ exports.userSignup = (req, res) => {
 }
 
 exports.login = (req, res, next) => {
+    
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
@@ -25,9 +27,12 @@ exports.login = (req, res, next) => {
             }
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
+                    
                     if (!valid) {
                         return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
                     }
+                    console.log("user login : ", user, "token : ", jwt.sign( { userId: user._id,}, 'RANDOM_TOKEN', { expiresIn: '24h' } ));
+
                     res.status(200).json({
                         userId: user._id,
                         token: jwt.sign(
@@ -40,4 +45,5 @@ exports.login = (req, res, next) => {
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
+
  };

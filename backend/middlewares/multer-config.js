@@ -1,28 +1,60 @@
 const multer = require('multer');
+const sharp = require('sharp');
+const fs = require('fs');
 
-// dictionnaire des types MIME pour définir le format de l'image 
-// que le frontend peut envoyer
 const MIME_TYPES = {
   'image/jpg': 'jpg',
-  'image/jpeg': 'jpg',
-  'image/png': 'png'
+  'image/jpeg': 'jpeg',
+  'image/png': 'png',
 };
-// configuration de multer pour dire où enregistrer les fichiers et comment les nommer
+
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    // on appelle le callback, on passe null pour dire qu'il n'y a pas d'erreur
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
-    // on remplace les espaces par des underscores dans le nom du fichier
-    const name = file.originalname.split(' ').join('_');
-    // on génère l'extension du fichier
-    const extension = MIME_TYPES[file.mimetype];
-    // on appelle le callback, on passe null pour dire qu'il n'y a pas d'erreur
-    callback(null, name + Date.now() + '.' + extension);
-  }
+    const name = file.originalname.split(' ').join('_').split('.')[0];
+    callback(null, `${name}${Date.now()}.webp`);
+  },
 });
 
-// Exportation de multer configuré avec notre objet storage et lui passons la méthode single pour dire que c'est un fichier unique
-// on précise que le fichier est une image
-module.exports = multer({storage: storage}).single('image');
+// Use multer to download image
+const upload = multer({ storage: storage }).single('image');
+
+const deleteImg = (filePath) => {
+  fs.unlink(filePath, (error) => {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log('File deleted successfully!');
+    }
+  });
+};
+
+// Add middleware for traitment after download
+const processImage = (req, res, next) => {
+    console.log(req.file); // Log the file object
+  
+    if (!req.file) {
+      return next();
+    }
+  
+    sharp.cache(false);
+  
+    // Resize and compress image
+    sharp(req.file.path)
+      .resize(500)
+      .webp({ quality: 80 })
+      .toFile('images/resized_' + req.file.filename, (err, info) => {
+        if (err) {
+          console.error(err); // Log any errors from sharp
+          return next(err);
+        }
+  
+        // Remove initial image
+        deleteImg(req.file.path);
+        next();
+      });
+  };
+
+module.exports = { upload, processImage };
