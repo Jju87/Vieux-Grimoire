@@ -4,8 +4,11 @@ const path = require('path');
 const app = express();
 const libraryRoutes = require('./routes/library');
 const userRoutes = require('./routes/user');
+require('dotenv').config();
 
-mongoose.connect('mongodb+srv://gardierjulien:AQYpc5XFyNQRhJAy@old-grimoire.ipsfjmd.mongodb.net/?retryWrites=true&w=majority&appName=old-grimoire',
+const uri = process.env.MONGODB_URI;
+
+mongoose.connect(uri,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à old-grimoire-API (mongodb) réussie !'))

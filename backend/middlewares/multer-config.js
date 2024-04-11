@@ -2,25 +2,31 @@ const multer = require('multer');
 const sharp = require('sharp');
 const fs = require('fs');
 
+// On définie les types d'images acceptés
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpeg',
   'image/png': 'png',
+  'image/webp': 'webp',
 };
 
+// On défini la destination du stockage et le nom du fichier
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
+    //Grace à split on retire les espaces et on les remplace par des _ 
     const name = file.originalname.split(' ').join('_').split('.')[0];
+    // On renomme le fichier avec un timestamp et on ajoute l'extension .webp
     callback(null, `${name}${Date.now()}.webp`);
   },
 });
 
-// Use multer to download image
+// Single permet de dire qu'il s'agit d'un fichier unique
 const upload = multer({ storage: storage }).single('image');
 
+// Unlink permet de supprimer l'image située sur le path donné
 const deleteImg = (filePath) => {
   fs.unlink(filePath, (error) => {
     if (error) {
@@ -31,8 +37,8 @@ const deleteImg = (filePath) => {
   });
 };
 
-// Add middleware for traitment after download
-const processImage = (req, res, next) => {
+// On utilise sharp pour redimensionner l'image
+const process = (req, res, next) => {
     console.log(req.file); // Log the file object
   
     if (!req.file) {
@@ -44,8 +50,8 @@ const processImage = (req, res, next) => {
     // Resize and compress image
     sharp(req.file.path)
     .rotate()
-    .resize({ width: null, height: 500, fit: 'cover', background: { r: 255, g: 255, b: 255, alpha: 0 } })
-    .webp()
+    .resize({fit: 'inside'})
+    .webp(85)
       .toFile('images/resized_' + req.file.filename, (err, info) => {
         if (err) {
           console.error(err); // Log any errors from sharp
@@ -58,4 +64,4 @@ const processImage = (req, res, next) => {
       });
   };
 
-module.exports = { upload, processImage };
+module.exports = { upload, process };
