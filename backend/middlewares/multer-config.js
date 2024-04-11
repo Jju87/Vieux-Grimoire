@@ -39,26 +39,28 @@ const deleteImg = (filePath) => {
 
 // On utilise sharp pour redimensionner l'image
 const process = (req, res, next) => {
-    console.log(req.file); // Log the file object
+    console.log(req.file); 
   
     if (!req.file) {
       return next();
     }
-  
+    // Empecher sharp de mettre en cache les images
     sharp.cache(false);
   
-    // Resize and compress image
+    // Sharp permet de redimensionner l'image, de la tourner dans le bon sens, de la convertir en webp et de la compresser
     sharp(req.file.path)
     .rotate()
     .resize({fit: 'inside'})
     .webp(85)
+    // On enregistre l'image redimensionnée dans le dossier images avec le nom resized_nomdufichier
+    // car one ne peut pas enregistrer l'image redimensionnée dans le même dossier que l'image d'origine ('images')
       .toFile('images/resized_' + req.file.filename, (err, info) => {
         if (err) {
-          console.error(err); // Log any errors from sharp
+          console.error(err);
           return next(err);
         }
   
-        // Remove initial image
+        // On fait à nouveau appel à la fonction deleteImg pour supprimer l'image d'origine
         deleteImg(req.file.path);
         next();
       });
