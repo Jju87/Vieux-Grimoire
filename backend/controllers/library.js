@@ -99,8 +99,8 @@ exports.modifyBook = (req, res, next) => {
                 if (req.file) {
                     // On supprime l'ancienne image si une nouvelle est envoyée avec la méthode unlink()
                     fs.unlink(
-                        "images/resized" +
-                            book.imageUrl.split("/images/resized")[1],
+                        "images/" +
+                            book.imageUrl.split("/images/")[1],
                         (error, info) => {
                             if (error) {
                                 console.log(error);
@@ -137,7 +137,7 @@ exports.deleteBook = (req, res, next) => {
             } else {
                 // On supprime l'image du livre avec la méthode unlink()
                 const filename = book.imageUrl.split("/images/")[1];
-                fs.unlink(`images/resized${filename}`, (error) => {
+                fs.unlink(`images/${filename}`, (error) => {
                     if (error) {
                         console.error("Error deleting file: ", error);
                     }
