@@ -17,7 +17,7 @@ exports.createBook = async (req, res, next) => {
             ...bookObject,
 
             //On génère l'url de l'image : on utilise le protocole de la requête (http ou https) et le nom de l'hôte
-            // puis on ajoute le dossier images et le nom du fichier
+            // puis on ajoute le dossier images/resized et le nom du fichier avec la méthode req.file.filename
             imageUrl: `${req.protocol}://${req.get("host")}/images/resized_${
                 req.file.filename
             }`,

@@ -1,8 +1,7 @@
-
 const http = require('http');
 const app = require('./app');
 require('dotenv').config();
-
+// Récupération du port dans les variables du dotenv
 const mainPort = process.env.PORT
 
 const normalizePort = (val) => {
@@ -16,6 +15,7 @@ const normalizePort = (val) => {
   }
   return false;
 };
+
 const port = normalizePort(mainPort);
 app.set('port', port);
 

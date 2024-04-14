@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 // Création d'un nouvel utilisateur
 exports.userSignup = (req, res) => {
@@ -37,11 +38,12 @@ exports.login = (req, res, next) => {
                     }
                     console.log("user login : ", user, "token : ", jwt.sign( { userId: user._id,}, 'RANDOM_TOKEN', { expiresIn: '24h' } ));
                     // Si le mot de passe est correct, on renvoie une réponse 200 avec l'userId et un token
+                    console.log(process.env.RANDOM_TOKEN)
                     res.status(200).json({
                         userId: user._id,
                         token: jwt.sign(
                             { userId: user._id,},
-                            'RANDOM_TOKEN',
+                            process.env.RANDOM_TOKEN,
                             { expiresIn: '24h' }
                         )
                     });
