@@ -27,7 +27,7 @@
 
 .BookRatingForm form input[type="radio"] {
     position: absolute;
-    left: -10000px
+    left: -10000px;
 }
 .BookRatingForm form input[type="submit"] {
     padding: 20px 23px;

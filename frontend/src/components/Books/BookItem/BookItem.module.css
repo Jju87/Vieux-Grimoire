@@ -12,9 +12,8 @@
     align-items: center;
 }
 
-
 .BookItem img {
-    border-radius: 5px;
+    border-radius: 15px;
 }
 .BookItem h2 {
     font-size: 18px;
@@ -27,7 +26,7 @@
     width: 206px;
     height: 260px;
     object-position: center;
-    object-fit: contain;
+    object-fit: cover;
 }
 .BookItem h3 {
     font-size: 18px;

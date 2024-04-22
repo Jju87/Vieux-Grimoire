@@ -8,7 +8,7 @@
 
 .Header div {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .Header p {
