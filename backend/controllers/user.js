@@ -3,8 +3,20 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
+// Définition de regex (volontairement simplistes pour la démo)
+const passwordFormat = /.{6,}/; // Au moins 6 caractères
+const emailFormat = /@/; // Présence d'un @
+
 // Création d'un nouvel utilisateur
 exports.userSignup = (req, res) => {
+    // Vérification de la validité de l'email et du mot de passe et envoi d'une erreur 400 si invalide, 
+    // ainsi qu'un message d'erreur côté serveur
+    if (!emailFormat.test(req.body.email)) {
+        return res.status(400).json({ error: "L'adresse email doit contenir le symbole '@' " });
+    }
+    if (!passwordFormat.test(req.body.password)) {
+        return res.status(400).json({ error : "Le mot de passe doit contenir au moins 6 caractères" });
+    }
     // Hashage du mot de passe
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
