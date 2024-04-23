@@ -2,7 +2,7 @@ const multer = require('multer');
 const sharp = require('sharp');
 const fs = require('fs');
 import {v2 as cloudinary} from 'cloudinary';
-require('dotenv').config();
+require('dotenv').config({path: 'backend/.env'});
           
 cloudinary.config({ 
   cloud_name: process.env.CLOUD_NAME, 
