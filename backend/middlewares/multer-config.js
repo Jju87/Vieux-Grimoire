@@ -64,7 +64,7 @@ const deleteImg = (filePath) => {
 };
 
 // On utilise sharp pour redimensionner l'image
-const process = (req, res, next) => {
+const processImage = (req, res, next) => {
     console.log(req.file); 
   
     if (!req.file) {
@@ -92,4 +92,4 @@ const process = (req, res, next) => {
       });
   };
 
-module.exports = { upload, process };
+module.exports = { upload, processImage };
