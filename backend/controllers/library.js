@@ -121,8 +121,6 @@ exports.modifyBook = (req, res, next) => {
         });
 };
 
-const cloudinary = require('cloudinary').v2;
-
 // Supprimer un livre
 exports.deleteBook = (req, res, next) => {
     // On utilise la méthode findOne() de mongoose pour trouver le livre à supprimer en utilisant l'id
