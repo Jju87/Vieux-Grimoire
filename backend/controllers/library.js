@@ -1,5 +1,6 @@
 const Book = require("../models/book");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
 
 // Créer un livre
 exports.createBook = async (req, res, next) => {
@@ -17,10 +18,8 @@ exports.createBook = async (req, res, next) => {
             ...bookObject,
 
             //On génère l'url de l'image : on utilise le protocole de la requête (http ou https) et le nom de l'hôte
-            // puis on ajoute le dossier images/resized et le nom du fichier avec la méthode req.file.filename
-            imageUrl: `${req.protocol}://${req.get("host")}/images/resized_${
-                req.file.filename
-            }`,
+            // puis on ajoute le dossier
+            imageUrl: req.file.path
         });
 
         console.log("book:", book);
@@ -82,9 +81,7 @@ exports.modifyBook = (req, res, next) => {
         ? // Si un fichier est envoyé, on crée un objet à partir des données de la requête en format JSON
           {
               ...JSON.parse(req.body.book),
-              imageUrl: `${req.protocol}://${req.get("host")}/images/resized_${
-                  req.file.filename
-              }`,
+              imageUrl: req.file.path 
           }
         : // Si aucun fichier n'est envoyé, on laisse les données de la requête telles quelles
           { ...req.body };
@@ -97,16 +94,14 @@ exports.modifyBook = (req, res, next) => {
                 res.status(403).json({ message: "unauthorized request" });
             } else {
                 if (req.file) {
-                    // On supprime l'ancienne image si une nouvelle est envoyée avec la méthode unlink()
-                    fs.unlink(
-                        "images/" +
-                            book.imageUrl.split("/images/")[1],
-                        (error, info) => {
-                            if (error) {
-                                console.log(error);
-                            }
+                    // On supprime l'ancienne image si une nouvelle est envoyée
+                    const publicId = book.imageUrl.split('/').pop().split('.')[0]; // extract publicId from imageUrl
+                
+                    cloudinary.uploader.destroy(publicId, function(error, result) {
+                        if (error) {
+                            console.log(error);
                         }
-                    );
+                    });
                 }
                 // On met à jour le livre avec la méthode updateOne() en lui passant l'id du livre à modifier
                 Book.updateOne(
@@ -126,6 +121,8 @@ exports.modifyBook = (req, res, next) => {
         });
 };
 
+const cloudinary = require('cloudinary').v2;
+
 // Supprimer un livre
 exports.deleteBook = (req, res, next) => {
     // On utilise la méthode findOne() de mongoose pour trouver le livre à supprimer en utilisant l'id
@@ -135,9 +132,10 @@ exports.deleteBook = (req, res, next) => {
             if (book.userId != req.auth.userId) {
                 res.status(403).json({ message: "unauthorized request" });
             } else {
-                // On supprime l'image du livre avec la méthode unlink()
-                const filename = book.imageUrl.split("/images/")[1];
-                fs.unlink(`images/${filename}`, (error) => {
+                // On supprime l'image du livre de Cloudinary
+                const publicId = book.imageUrl.split('/').pop().split('.')[0]; // extract publicId from imageUrl
+
+                cloudinary.uploader.destroy(publicId, function(error, result) {
                     if (error) {
                         console.error("Error deleting file: ", error);
                     }
@@ -152,9 +150,6 @@ exports.deleteBook = (req, res, next) => {
                 });
             }
         })
-        .catch((error) => {
-            res.status(500).json({ error });
-        });
 };
 
 // Ajouter une note à un livre
