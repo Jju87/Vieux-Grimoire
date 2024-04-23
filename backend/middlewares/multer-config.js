@@ -1,6 +1,29 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const fs = require('fs');
+import {v2 as cloudinary} from 'cloudinary';
+require('dotenv').config();
+          
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET 
+});
+
+
+// Chemin local vers l'image que vous souhaitez télécharger
+const imagePath = 'C:/Users/Julien/Desktop/work/vieux-grimoire-jju87/backend/images/oui-oui-pirates.jpg';
+
+// Téléchargez l'image vers Cloudinary
+cloudinary.uploader.upload(imagePath, (error, result) => {
+  if (error) {
+    console.error('Erreur lors du téléchargement de l\'image vers Cloudinary :', error);
+  } else {
+    // L'URL de l'image téléchargée sur Cloudinary
+    console.log('URL de l\'image téléchargée sur Cloudinary :', result.secure_url);
+  }
+});
+
 
 // On définie les types d'images acceptés
 const MIME_TYPES = {
@@ -9,7 +32,6 @@ const MIME_TYPES = {
   'image/png': 'png',
   'image/webp': 'webp',
 };
-
 // On défini la destination du stockage et le nom du fichier
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
