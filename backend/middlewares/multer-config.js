@@ -16,7 +16,7 @@ cloudinary.config({
 
 
 // Chemin local vers l'image que vous souhaitez télécharger
-const imagePath = 'C:/Users/Julien/Desktop/work/vieux-grimoire-jju87/backend/images/oui-oui-pirates.jpg';
+const imagePath = 'backend/images/oui-oui-pirates.jpg';
 
 // Téléchargez l'image vers Cloudinary
 cloudinary.uploader.upload(imagePath, (error, result) => {
