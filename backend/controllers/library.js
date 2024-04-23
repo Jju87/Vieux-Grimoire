@@ -19,7 +19,7 @@ exports.createBook = async (req, res, next) => {
 
             //On génère l'url de l'image : on utilise le protocole de la requête (http ou https) et le nom de l'hôte
             // puis on ajoute le dossier
-            imageUrl: req.file.path
+            imageUrl: bookObject.imageUrl
         });
 
         console.log("book:", book);
@@ -81,7 +81,7 @@ exports.modifyBook = (req, res, next) => {
         ? // Si un fichier est envoyé, on crée un objet à partir des données de la requête en format JSON
           {
               ...JSON.parse(req.body.book),
-              imageUrl: req.file.path 
+              imageUrl: JSON.parse(req.body.book).imageUrl,
           }
         : // Si aucun fichier n'est envoyé, on laisse les données de la requête telles quelles
           { ...req.body };
