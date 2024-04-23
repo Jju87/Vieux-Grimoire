@@ -24,7 +24,6 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 })
-
 // Route handler for the root URL
 app.get('/', (req, res) => {
   res.send('Welcome to the Vieux Grimoire API!');
