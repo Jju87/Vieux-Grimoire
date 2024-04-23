@@ -25,6 +25,10 @@ app.use((req, res, next) => {
     next();
 })
 
+// Route handler for the root URL
+app.get('/', (req, res) => {
+  res.send('Welcome to the Vieux Grimoire API!');
+});
 // Définition des routes
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/books', libraryRoutes);
