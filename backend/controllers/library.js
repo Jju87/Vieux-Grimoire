@@ -79,7 +79,7 @@ exports.modifyBook = (req, res, next) => {
         } else {
           if (req.file) {
             // On supprime l'ancienne image si une nouvelle est envoyée
-            const publicId = book.imagePublicId.split('/upload/')[1].replace(/\.[^/.]+$/, "");               
+            const publicId = book.imagePublicId; // Use the publicId from the database
             cloudinary.uploader.destroy(publicId, function(error, result) {
               if (error) {
                 console.log(error);
@@ -87,14 +87,16 @@ exports.modifyBook = (req, res, next) => {
             });
   
             // Upload the new image to Cloudinary and get the image URL
-            cloudinary.uploader.upload_stream({ resource_type: 'raw' }, (error, result) => {
+            cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
               if (error) throw new Error(error);
               const imageUrl = result.secure_url;
+              const imagePublicId = result.public_id;
   
               // Create the book object with the new image URL
               const bookObject = {
                 ...JSON.parse(req.body.book),
                 imageUrl, // add the new image URL here
+                imagePublicId, // add the new image public ID here
               };
               delete bookObject._userId;
   
