@@ -13,7 +13,8 @@ exports.createBook = async (req, res, next) => {
         if (error) throw new Error(error);
         const imageUrl = result.secure_url;
         const imagePublicId = result.public_id;
-  
+        console.log("image uploaded with public ID: ", imagePublicId)
+
         const book = new Book({
           ...bookObject,
           userId, // add the userId here
@@ -91,6 +92,7 @@ exports.modifyBook = (req, res, next) => {
               if (error) throw new Error(error);
               const imageUrl = result.secure_url;
               const imagePublicId = result.public_id;
+              console.log("image uploaded with public ID: ", imagePublicId)
   
               // Create the book object with the new image URL
               const bookObject = {
