@@ -9,7 +9,7 @@ exports.createBook = async (req, res, next) => {
   
     try {
       // Upload the image to Cloudinary and get the image URL
-      const result = await cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
+      const result = await cloudinary.uploader.upload_stream({ resource_type: 'image', unique_filename: false }, (error, result) => {
         if (error) throw new Error(error);
         const imageUrl = result.secure_url;
         const imagePublicId = result.public_id;
@@ -87,7 +87,7 @@ exports.modifyBook = (req, res, next) => {
             });
   
             // Upload the new image to Cloudinary and get the image URL
-            cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
+            cloudinary.uploader.upload_stream({ resource_type: 'image', use_filename: false }, (error, result) => {
               if (error) throw new Error(error);
               const imageUrl = result.secure_url;
               const imagePublicId = result.public_id;
