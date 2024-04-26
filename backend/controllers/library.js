@@ -3,38 +3,39 @@ const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
 
 // Créer un livre
-const userId = req.auth.userId;
+exports.createBook = async (req, res, next) => {
+  const bookObject = JSON.parse(req.body.book);
+  const userId = req.auth.userId;
 
-try {
-  // Upload the image to Cloudinary and get the image URL
-  const result = await new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream({ resource_type: 'image', unique_filename: false }, (error, result) => {
-      if (error) reject(error);
-      else resolve(result);
+  try {
+    // Upload the image to Cloudinary and get the image URL
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream({ resource_type: 'image', unique_filename: false }, (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      });
+
+      uploadStream.end(req.file.buffer);
     });
 
-    uploadStream.end(req.file.buffer);
-  });
+    const imageUrl = result.secure_url;
+    const imagePublicId = result.public_id;
+    console.log("image uploaded with public ID: ", imagePublicId)
 
-  const imageUrl = result.secure_url;
-  const imagePublicId = result.public_id;
-  console.log("image uploaded with public ID: ", imagePublicId)
+    const book = new Book({
+      ...bookObject,
+      userId, // add the userId here
+      imageUrl, // add the image URL here
+      imagePublicId, // add the image public ID here
+    });
 
-  const book = new Book({
-    ...bookObject,
-    userId, // add the userId here
-    imageUrl, // add the image URL here
-    imagePublicId, // add the image public ID here
-  });
-
-  book.save()
-    .then(() => res.status(201).json({ message: "Saved!" }))
-    .catch(error => res.status(400).json({ error }));
-} catch (error) {
-  console.error("error:", error);
-  res.status(400).json({ error });
-}
-  
+    await book.save();
+    res.status(201).json({ message: "Saved!" });
+  } catch (error) {
+    console.error("error:", error);
+    res.status(400).json({ error });
+  }
+};
 // Récupérer tous les livres
 exports.getAllBooks = (req, res, next) => {
     // La méthode find() de mongoose permet de renvoyer tous les documents de la collection
