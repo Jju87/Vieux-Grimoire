@@ -76,7 +76,7 @@ exports.modifyBook = (req, res, next) => {
         } else {
           if (req.file) {
             // On supprime l'ancienne image si une nouvelle est envoyée
-            const publicId = book.imageUrl.split('/').pop().split('.')[0]; // extract publicId from imageUrl
+            const publicId = book.imageUrl.split('/upload/')[1].split('.')[0];            
             cloudinary.uploader.destroy(publicId, function(error, result) {
               if (error) {
                 console.log(error);
@@ -139,8 +139,7 @@ exports.deleteBook = (req, res, next) => {
                 res.status(403).json({ message: "unauthorized request" });
             } else {
                 // On supprime l'image du livre de Cloudinary
-                const publicId = book.imageUrl.split('/').pop().split('.')[0]; // extract publicId from imageUrl
-
+                const publicId = book.imageUrl.split('/upload/')[1].split('.')[0];
                 cloudinary.uploader.destroy(publicId, function(error, result) {
                     if (error) {
                         console.error("Error deleting file: ", error);
