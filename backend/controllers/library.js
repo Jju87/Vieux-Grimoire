@@ -12,11 +12,14 @@ exports.createBook = async (req, res, next) => {
       const result = await cloudinary.uploader.upload_stream({ resource_type: 'raw' }, (error, result) => {
         if (error) throw new Error(error);
         const imageUrl = result.secure_url;
+        const imagePublicId = result.public_id;
   
         const book = new Book({
           ...bookObject,
           userId, // add the userId here
           imageUrl, // add the image URL here
+          imagePublicId, // add the image public ID here
+
         });
   
         book.save()
