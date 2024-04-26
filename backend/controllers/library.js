@@ -8,19 +8,8 @@ exports.createBook = async (req, res, next) => {
   const userId = req.auth.userId;
 
   try {
-    // Upload the image to Cloudinary and get the image URL
-    const result = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
-        if (error) reject(error);
-        else resolve(result);
-      });
-
-      uploadStream.end(req.file.buffer);
-    });
-
-    const imageUrl = result.secure_url;
-    const imagePublicId = result.public_id;
-    console.log("image uploaded with public ID: ", imagePublicId)
+    const imageUrl = req.body.imageUrl; // Use the image URL added by the uploadToCloudinary middleware
+    const imagePublicId = req.body.imagePublicId; // Use the image public ID added by the uploadToCloudinary middleware
 
     const book = new Book({
       ...bookObject,
@@ -36,6 +25,7 @@ exports.createBook = async (req, res, next) => {
     res.status(400).json({ error });
   }
 };
+
 // Récupérer tous les livres
 exports.getAllBooks = (req, res, next) => {
     // La méthode find() de mongoose permet de renvoyer tous les documents de la collection

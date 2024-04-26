@@ -24,6 +24,7 @@ const uploadToCloudinary = (req, res, next) => {
       } else {
         console.log('File uploaded to Cloudinary');
         req.body.imageUrl = result.secure_url;
+        req.body.imagePublicId = result.public_id; // Add the image public ID to req.body
         next();
       }
     }
