@@ -79,7 +79,7 @@ exports.modifyBook = (req, res, next) => {
         } else {
           if (req.file) {
             // On supprime l'ancienne image si une nouvelle est envoyée
-            const publicId = book.imageUrl.split('/upload/')[1].replace(/\.[^/.]+$/, "");            
+            const publicId = book.imagePublicId.split('/upload/')[1].replace(/\.[^/.]+$/, "");               
             cloudinary.uploader.destroy(publicId, function(error, result) {
               if (error) {
                 console.log(error);
@@ -143,7 +143,7 @@ exports.deleteBook = (req, res, next) => {
             } else {
                 console.log("book.imageUrl: ", book.imageUrl);
                 // On supprime l'image du livre de Cloudinary
-                const publicId = book.imageUrl.split('/upload/')[1].replace(/\.[^/.]+$/, "");               
+                const publicId = book.imagePublicId.split('/upload/')[1].replace(/\.[^/.]+$/, "");               
                 cloudinary.uploader.destroy(publicId, function(error, result) {
                     if (error) {
                         console.error("Error deleting file: ", error);
