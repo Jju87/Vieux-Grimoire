@@ -138,13 +138,16 @@ exports.deleteBook = (req, res, next) => {
             if (book.userId != req.auth.userId) {
                 res.status(403).json({ message: "unauthorized request" });
             } else {
+                console.log("book.imageUrl: ", book.imageUrl);
                 // On supprime l'image du livre de Cloudinary
                 const publicId = book.imageUrl.split('/upload/')[1].split('.')[0];
                 cloudinary.uploader.destroy(publicId, function(error, result) {
                     if (error) {
                         console.error("Error deleting file: ", error);
+                        console.log("publicId: ", publicId)
                     } else {
-                        console.log("Delete result: ", result); // Log the result of the deletion
+                        console.log("Delete result: ", result);
+                        console.log("publicId: ", publicId)
                     }
                     // On supprime aussi le livre de la base de données avec la méthode deleteOne()
                     Book.deleteOne({ _id: req.params.id })

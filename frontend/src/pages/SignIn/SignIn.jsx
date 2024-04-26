@@ -15,8 +15,8 @@ function SignIn({ setUser }) {
     navigate(APP_ROUTES.DASHBOARD);
   }
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('demo@demo');
+  const [password, setPassword] = useState('demodemo');
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState({ error: false, message: '' });
   const signIn = async () => {
