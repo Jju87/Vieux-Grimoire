@@ -3,35 +3,37 @@ const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
 
 // Créer un livre
-exports.createBook = async (req, res, next) => {
-    const bookObject = JSON.parse(req.body.book);
-    const userId = req.auth.userId;
-  
-    try {
-      // Upload the image to Cloudinary and get the image URL
-      const result = await cloudinary.uploader.upload_stream({ resource_type: 'image', unique_filename: false }, (error, result) => {
-        if (error) throw new Error(error);
-        const imageUrl = result.secure_url;
-        const imagePublicId = result.public_id;
-        console.log("image uploaded with public ID: ", imagePublicId)
+const userId = req.auth.userId;
 
-        const book = new Book({
-          ...bookObject,
-          userId, // add the userId here
-          imageUrl, // add the image URL here
-          imagePublicId, // add the image public ID here
+try {
+  // Upload the image to Cloudinary and get the image URL
+  const result = await new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream({ resource_type: 'image', unique_filename: false }, (error, result) => {
+      if (error) reject(error);
+      else resolve(result);
+    });
 
-        });
-  
-        book.save()
-          .then(() => res.status(201).json({ message: "Saved!" }))
-          .catch(error => res.status(400).json({ error }));
-      }).end(req.file.buffer);
-    } catch (error) {
-      console.error("error:", error);
-      res.status(400).json({ error });
-    }
-  };
+    uploadStream.end(req.file.buffer);
+  });
+
+  const imageUrl = result.secure_url;
+  const imagePublicId = result.public_id;
+  console.log("image uploaded with public ID: ", imagePublicId)
+
+  const book = new Book({
+    ...bookObject,
+    userId, // add the userId here
+    imageUrl, // add the image URL here
+    imagePublicId, // add the image public ID here
+  });
+
+  book.save()
+    .then(() => res.status(201).json({ message: "Saved!" }))
+    .catch(error => res.status(400).json({ error }));
+} catch (error) {
+  console.error("error:", error);
+  res.status(400).json({ error });
+}
   
 // Récupérer tous les livres
 exports.getAllBooks = (req, res, next) => {
