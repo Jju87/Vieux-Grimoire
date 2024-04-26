@@ -9,7 +9,7 @@ exports.createBook = async (req, res, next) => {
   
     try {
       // Upload the image to Cloudinary and get the image URL
-      const result = await cloudinary.uploader.upload_stream({ resource_type: 'raw' }, (error, result) => {
+      const result = await cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
         if (error) throw new Error(error);
         const imageUrl = result.secure_url;
         const imagePublicId = result.public_id;
@@ -134,35 +134,34 @@ exports.modifyBook = (req, res, next) => {
   };
 // Supprimer un livre
 exports.deleteBook = (req, res, next) => {
-    // On utilise la méthode findOne() de mongoose pour trouver le livre à supprimer en utilisant l'id
-    Book.findOne({ _id: req.params.id })
-        .then((book) => {
-            // Seul l'utilisateur qui a créé le livre peut le supprimer
-            if (book.userId != req.auth.userId) {
-                res.status(403).json({ message: "unauthorized request" });
-            } else {
-                console.log("book.imageUrl: ", book.imageUrl);
-                // On supprime l'image du livre de Cloudinary
-                const publicId = book.imagePublicId.split('/upload/')[1].replace(/\.[^/.]+$/, "");               
-                cloudinary.uploader.destroy(publicId, function(error, result) {
-                    if (error) {
-                        console.error("Error deleting file: ", error);
-                        console.log("publicId: ", publicId)
-                    } else {
-                        console.log("Delete result: ", result);
-                        console.log("publicId: ", publicId)
-                    }
-                    // On supprime aussi le livre de la base de données avec la méthode deleteOne()
-                    Book.deleteOne({ _id: req.params.id })
-                        .then(() => {
-                            res.status(200).json({ message: "Deleted!" });
-                        })
-                        .catch((error) => {
-                            res.status(500).json({ error });
-                        });
-                });
-            }
-        })
+  // On utilise la méthode findOne() de mongoose pour trouver le livre à supprimer en utilisant l'id
+  Book.findOne({ _id: req.params.id })
+      .then((book) => {
+          // Seul l'utilisateur qui a créé le livre peut le supprimer
+          if (book.userId != req.auth.userId) {
+              res.status(403).json({ message: "unauthorized request" });
+          } else {
+              // On supprime l'image du livre de Cloudinary
+              const publicId = book.imagePublicId; // Use the publicId from the database
+              cloudinary.uploader.destroy(publicId, { resource_type: 'image' }, function(error, result) { // Use the correct resource type
+                  if (error) {
+                      console.error("Error deleting file: ", error);
+                      console.log("publicId: ", publicId)
+                  } else {
+                      console.log("Delete result: ", result);
+                      console.log("publicId: ", publicId)
+                  }
+                  // On supprime aussi le livre de la base de données avec la méthode deleteOne()
+                  Book.deleteOne({ _id: req.params.id })
+                      .then(() => {
+                          res.status(200).json({ message: "Deleted!" });
+                      })
+                      .catch((error) => {
+                          res.status(500).json({ error });
+                      });
+              });
+          }
+      })
 };
 
 // Ajouter une note à un livre
