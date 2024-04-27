@@ -4,8 +4,8 @@ require("dotenv").config({ path: "backend/.env" });
 const moderateImage = async (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const apiKey = process.env.KEY_API_MODERATIONCONTENT;
-    console.log("imageUrl in moderateImage: ", imageUrl);
-    console.log("apiKey in moderateImage: ", apiKey);
+    // console.log("imageUrl in moderateImage: ", imageUrl);
+    // console.log("apiKey in moderateImage: ", apiKey);
 
     try {
         const response = await axios.get(
@@ -14,6 +14,8 @@ const moderateImage = async (req, res, next) => {
         // accolades pour destructurer la réponse de l'API et récupérer les prédictions comme
         // indiqué dans la documentation de l'API
         const { predictions } = response.data;
+        console.log("Adult score: ", predictions.adult); // Log adult score
+
 
         // Si la prédiction est supérieure à 50%, on renvoie une erreur 400 avec un message d'erreur
         if (predictions.adult > 50) {
