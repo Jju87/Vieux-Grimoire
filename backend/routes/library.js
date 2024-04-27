@@ -8,10 +8,10 @@ const moderateImage = require('../middlewares/moderation');
 
 
 router.get('/', bookCtrl.getAllBooks);
-router.post('/', auth, upload, processImage, moderateImage, uploadToCloudinary, bookCtrl.createBook);
+router.post('/', auth, upload, processImage, uploadToCloudinary, moderateImage, bookCtrl.createBook);
 router.get('/bestrating', bookCtrl.bestRating);
 router.get('/:id', bookCtrl.getOneBook);
-router.put('/:id', auth, upload, processImage, moderateImage, uploadToCloudinary, bookCtrl.modifyBook);
+router.put('/:id', auth, upload, processImage, uploadToCloudinary, moderateImage, bookCtrl.modifyBook);
 router.delete('/:id', auth, bookCtrl.deleteBook);
 router.post('/:id/rating', auth, bookCtrl.createRating);
 
