@@ -43,25 +43,32 @@ function BookForm({ book, validate }) {
     }
   }, [formState]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (data) => {
-    // When we create a new book
+    setIsLoading(true);
+    const dataCopy = { ...data };
     if (!book) {
-      if (!data.file[0]) {
+      if (!dataCopy.file[0]) {
         alert('Vous devez ajouter une image');
+        setIsLoading(false);
+        return;
       }
-      if (!data.rating) {
-        /* eslint-disable no-param-reassign */
-        data.rating = 0;
-        /* eslint-enable no-param-reassign */
+      if (!dataCopy.rating) {
+        dataCopy.rating = 0;
       }
-      const newBook = await addBook(data);
+      const newBook = await addBook(dataCopy);
+      setIsLoading(false);
       if (!newBook.error) {
         validate(true);
+      } else if (newBook.message === 'Image non autorisée') {
+        alert("Votre image semble contenir un contenu pour adulte et n'est pas autorisée sur notre application");
       } else {
         alert(newBook.message);
       }
     } else {
-      const updatedBook = await updateBook(data, data.id);
+      const updatedBook = await updateBook(dataCopy, dataCopy.id);
+      setIsLoading(false);
       if (!updatedBook.error) {
         navigate('/');
       } else {
@@ -114,7 +121,7 @@ function BookForm({ book, validate }) {
         </div>
         <input {...register('file')} type="file" id="file" />
       </label>
-      <button type="submit">Publier</button>
+      <button type="submit" disabled={isLoading}>{isLoading ? 'Chargement...' : 'Publier'}</button>
     </form>
   );
 }
