@@ -64,71 +64,41 @@ exports.getOneBook = (req, res, next) => {
         .catch((error) => res.status(404).json({ error }));
 };
 
-exports.modifyBook = (req, res, next) => {
-    Book.findOne({ _id: req.params.id })
-      .then((book) => {
-        // Seul l'utilisateur qui a créé le livre peut le modifier
-        if (book.userId != req.auth.userId) {
-          res.status(403).json({ message: "unauthorized request" });
-        } else {
-          if (req.file) {
-            // On supprime l'ancienne image si une nouvelle est envoyée
-            const publicId = book.imagePublicId; // Use the publicId from the database
-            cloudinary.uploader.destroy(publicId, function(error, result) {
-              if (error) {
-                console.log(error);
-              }
-            });
-  
-            // Upload the new image to Cloudinary and get the image URL
-            cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
-              if (error) throw new Error(error);
-              const imageUrl = result.secure_url;
-              const imagePublicId = result.public_id;
-              console.log("image uploaded with public ID: ", imagePublicId)
-  
-              // Create the book object with the new image URL
-              const bookObject = {
-                ...JSON.parse(req.body.book),
-                imageUrl, // add the new image URL here
-                imagePublicId, // add the new image public ID here
-              };
-              delete bookObject._userId;
-  
-              // Update the book
-              Book.updateOne(
-                { _id: req.params.id },
-                { ...bookObject, _id: req.params.id }
-              )
-                .then(() => {
-                  res.status(200).json({
-                    message: " Book has been updated",
-                  });
-                })
-                .catch((error) => res.status(401).json({ error }));
-            }).end(req.file.buffer);
-          } else {
-            // If no file is sent, update the book with the request body as is
-            const bookObject = { ...req.body };
-            delete bookObject._userId;
-  
-            Book.updateOne(
-              { _id: req.params.id },
-              { ...bookObject, _id: req.params.id }
-            )
-              .then(() => {
-                res.status(200).json({
-                  message: " Book has been updated",
-                });
-              })
-              .catch((error) => res.status(401).json({ error }));
-          }
-        }
-      })
-      .catch((error) => {
-        res.status(400).json({ error });
+exports.modifyBook = async (req, res, next) => {
+  const bookObject = JSON.parse(req.body.book);
+  const userId = req.auth.userId;
+
+  try {
+    // Find the existing book
+    const existingBook = await Book.findOne({ _id: req.params.id });
+
+    // Delete the existing image from Cloudinary
+    if (existingBook.imagePublicId) {
+      cloudinary.uploader.destroy(existingBook.imagePublicId, function(error, result) {
+        console.log(result, error);
       });
-  };
+    }
+
+    // Use the new image URL and public ID added by the uploadToCloudinary middleware
+    const imageUrl = req.body.imageUrl;
+    const imagePublicId = req.body.imagePublicId;
+
+    // Update the book
+    const book = {
+      ...bookObject,
+      userId, // add the userId here
+      imageUrl, // add the image URL here
+      imagePublicId, // add the image public ID here
+    };
+
+    await Book.updateOne({ _id: req.params.id }, book);
+    res.status(200).json({ message: "Modified!" });
+  } catch (error) {
+    console.error("error:", error);
+    res.status(400).json({ error });
+  }
+};
+
 // Supprimer un livre
 exports.deleteBook = (req, res, next) => {
   // On utilise la méthode findOne() de mongoose pour trouver le livre à supprimer en utilisant l'id
