@@ -61,8 +61,6 @@ function BookForm({ book, validate }) {
       setIsLoading(false);
       if (!newBook.error) {
         validate(true);
-      } else if (newBook.error === 'Image non autorisée') {
-        alert("Votre image semble contenir un contenu pour adulte et n'est pas autorisée sur notre application");
       } else {
         alert(newBook.error);
       }
