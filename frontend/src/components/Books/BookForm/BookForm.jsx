@@ -61,10 +61,10 @@ function BookForm({ book, validate }) {
       setIsLoading(false);
       if (!newBook.error) {
         validate(true);
-      } else if (newBook.response && newBook.response.data && newBook.response.data.message) {
-        alert(newBook.response.data.message);
+      } else if (newBook.error === 'Image non autorisée') {
+        alert("Votre image semble contenir un contenu pour adulte et n'est pas autorisée sur notre application");
       } else {
-        alert(newBook.message);
+        alert(newBook.error);
       }
     } else {
       const updatedBook = await updateBook(dataCopy, dataCopy.id);
