@@ -57,22 +57,24 @@ function BookForm({ book, validate }) {
       if (!dataCopy.rating) {
         dataCopy.rating = 0;
       }
-      const newBook = await addBook(dataCopy);
-      console.log(newBook);
-      setIsLoading(false);
-      if (newBook.error) {
-        alert(newBook.error);
-      } else {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const newBook = await addBook(dataCopy);
+        setIsLoading(false);
         validate(true);
+      } catch (error) {
+        setIsLoading(false);
+        alert(error.response.data);
       }
     } else {
-      const updatedBook = await updateBook(dataCopy, dataCopy.id);
-      console.log(updatedBook);
-      setIsLoading(false);
-      if (updatedBook.error) {
-        alert(updatedBook.error);
-      } else {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const updatedBook = await updateBook(dataCopy, dataCopy.id);
+        setIsLoading(false);
         navigate('/');
+      } catch (error) {
+        setIsLoading(false);
+        alert(error.response.data);
       }
     }
   };
