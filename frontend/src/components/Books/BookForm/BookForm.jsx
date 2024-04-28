@@ -59,18 +59,18 @@ function BookForm({ book, validate }) {
       }
       const newBook = await addBook(dataCopy);
       setIsLoading(false);
-      if (!newBook.message) {
-        validate(true);
-      } else {
+      if (newBook.error) {
         alert(newBook.error);
+      } else {
+        validate(true);
       }
     } else {
       const updatedBook = await updateBook(dataCopy, dataCopy.id);
       setIsLoading(false);
-      if (!updatedBook.error) {
-        navigate('/');
-      } else {
+      if (updatedBook.error) {
         alert(updatedBook.error);
+      } else {
+        navigate('/');
       }
     }
   };
