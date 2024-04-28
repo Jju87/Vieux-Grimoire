@@ -4,6 +4,7 @@ require("dotenv").config({ path: "backend/.env" });
 const moderateImage = async (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const apiKey = process.env.KEY_API_MODERATIONCONTENT;
+    console.log("Image URL: ", imageUrl); // Log the image URL
 
     try {
         const response = await axios.get(
