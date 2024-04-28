@@ -67,7 +67,7 @@ function BookForm({ book, validate }) {
         }
       } catch (error) {
         setIsLoading(false);
-        alert(error.response.data);
+        alert('Une erreur est survenue lors de l\'ajout du livre');
       }
     } else {
       try {
@@ -80,10 +80,10 @@ function BookForm({ book, validate }) {
         }
       } catch (error) {
         setIsLoading(false);
-        alert(error.response.data);
+        alert('Une erreur est survenue lors de la mise à jour du livre');
       }
     }
-  };
+  };;
 
   const readOnlyStars = !!book;
   return (
