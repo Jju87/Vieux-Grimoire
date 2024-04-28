@@ -58,20 +58,26 @@ function BookForm({ book, validate }) {
         dataCopy.rating = 0;
       }
       try {
-        // eslint-disable-next-line no-unused-vars
         const newBook = await addBook(dataCopy);
         setIsLoading(false);
-        validate(true);
+        if (newBook.error) {
+          alert(newBook.error);
+        } else {
+          validate(true);
+        }
       } catch (error) {
         setIsLoading(false);
         alert(error.response.data);
       }
     } else {
       try {
-        // eslint-disable-next-line no-unused-vars
         const updatedBook = await updateBook(dataCopy, dataCopy.id);
         setIsLoading(false);
-        navigate('/');
+        if (updatedBook.error) {
+          alert(updatedBook.error);
+        } else {
+          navigate('/');
+        }
       } catch (error) {
         setIsLoading(false);
         alert(error.response.data);

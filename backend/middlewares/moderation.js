@@ -22,7 +22,7 @@ const moderateImage = async (req, res, next) => {
                 return res.status(400).json({ error: "Votre image contient du contenu pour adulte non autorisé sur notre application" });
             }
         } else {
-            console.log("No adult score returned from ModerateContent API");
+            console.log("Aucun contenu à caractère sexuel détecté dans l'image, l'image est autorisée");
         }
 
         next();
