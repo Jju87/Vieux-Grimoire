@@ -62,7 +62,7 @@ function BookForm({ book, validate }) {
       if (!newBook.message) {
         validate(true);
       } else {
-        alert(newBook.message);
+        alert(newBook.error);
       }
     } else {
       const updatedBook = await updateBook(dataCopy, dataCopy.id);
@@ -70,7 +70,7 @@ function BookForm({ book, validate }) {
       if (!updatedBook.error) {
         navigate('/');
       } else {
-        alert(updatedBook.message);
+        alert(updatedBook.error);
       }
     }
   };
