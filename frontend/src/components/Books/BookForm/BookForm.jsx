@@ -68,9 +68,10 @@ function BookForm({ book, validate }) {
           } else {
             setErrorMessage('Une erreur est survenue lors de la publication du livre');
           }
-          return;
+        } else {
+          validate(true);
+          navigate('/');
         }
-        validate(true);
       } catch (error) {
         setIsLoading(false);
         alert('Une erreur est survenue lors de l\'ajout du livre');
