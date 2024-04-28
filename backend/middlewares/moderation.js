@@ -17,7 +17,7 @@ const moderateImage = async (req, res, next) => {
         if (predictions && predictions.adult !== undefined) {
             console.log("Adult score: ", predictions.adult); // Log adult score
 
-            if (predictions.adult > 50) {
+            if (predictions.adult > 40) {
                 return res.status(400).json({ error: "Image non autorisée" });
             }
         } else {
