@@ -58,12 +58,13 @@ function BookForm({ book, validate }) {
         dataCopy.rating = 0;
       }
       try {
-        const response = await addBook(dataCopy); // Envoyer les données directement
+        const response = await addBook(dataCopy);
         setIsLoading(false);
         if (response.error) {
-          // Si une erreur est renvoyée depuis le serveur
           if (response.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
+          } else if (response.error === 'true') {
+            alert('Votre image n\'est pas autorisée');
           } else {
             alert('Une erreur est survenue lors de la publication du livre');
           }
