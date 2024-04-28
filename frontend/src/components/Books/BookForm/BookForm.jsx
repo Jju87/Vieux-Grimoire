@@ -44,7 +44,6 @@ function BookForm({ book, validate }) {
   }, [formState]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -64,9 +63,9 @@ function BookForm({ book, validate }) {
         if (response.error) {
           // Si une erreur est renvoyée depuis le serveur
           if (response.error.includes('contient du contenu pour adulte non autorisé')) {
-            setErrorMessage('Votre image contient du contenu pour adulte non autorisé sur notre application');
+            alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
           } else {
-            setErrorMessage('Une erreur est survenue lors de la publication du livre');
+            alert('Une erreur est survenue lors de la publication du livre');
           }
         } else {
           validate(true);
@@ -138,7 +137,6 @@ function BookForm({ book, validate }) {
         </div>
         <input {...register('file')} type="file" id="file" />
       </label>
-      {errorMessage && <p>{errorMessage}</p>}
       <button type="submit" disabled={isLoading}>{isLoading ? 'Chargement...' : 'Publier'}</button>
     </form>
   );
