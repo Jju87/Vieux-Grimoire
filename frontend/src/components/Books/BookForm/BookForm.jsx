@@ -58,6 +58,7 @@ function BookForm({ book, validate }) {
         dataCopy.rating = 0;
       }
       const newBook = await addBook(dataCopy);
+      console.log(newBook);
       setIsLoading(false);
       if (newBook.error) {
         alert(newBook.error);
@@ -66,6 +67,7 @@ function BookForm({ book, validate }) {
       }
     } else {
       const updatedBook = await updateBook(dataCopy, dataCopy.id);
+      console.log(updatedBook);
       setIsLoading(false);
       if (updatedBook.error) {
         alert(updatedBook.error);
