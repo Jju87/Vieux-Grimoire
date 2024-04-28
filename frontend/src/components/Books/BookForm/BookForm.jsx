@@ -44,6 +44,7 @@ function BookForm({ book, validate }) {
   }, [formState]);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -58,10 +59,15 @@ function BookForm({ book, validate }) {
         dataCopy.rating = 0;
       }
       try {
-        const newBook = await addBook(dataCopy);
+        const response = await addBook(dataCopy); // Envoyer les données directement
         setIsLoading(false);
-        if (newBook.error) {
-          alert(newBook.error);
+        if (response.error) {
+          // Si une erreur est renvoyée depuis le serveur
+          if (response.error.includes('contient du contenu pour adulte non autorisé')) {
+            setErrorMessage('Votre image contient du contenu pour adulte non autorisé sur notre application');
+          } else {
+            setErrorMessage('Une erreur est survenue lors de la publication du livre');
+          }
         } else {
           validate(true);
         }
@@ -71,11 +77,14 @@ function BookForm({ book, validate }) {
       }
     } else {
       try {
-        const updatedBook = await updateBook(dataCopy, dataCopy.id);
+        const updatedBookResponse = await updateBook(dataCopy, dataCopy.id);
         setIsLoading(false);
+        const updatedBook = await updatedBookResponse.json();
         if (updatedBook.error) {
+          // Si une erreur est renvoyée depuis le serveur lors de la mise à jour du livre
           alert(updatedBook.error);
         } else {
+          // Validation réussie, rediriger vers la page d'accueil
           navigate('/');
         }
       } catch (error) {
@@ -125,10 +134,10 @@ function BookForm({ book, validate }) {
               <p>Ajouter une image</p>
             </>
           )}
-
         </div>
         <input {...register('file')} type="file" id="file" />
       </label>
+      {errorMessage && <p>{errorMessage}</p>}
       <button type="submit" disabled={isLoading}>{isLoading ? 'Chargement...' : 'Publier'}</button>
     </form>
   );
