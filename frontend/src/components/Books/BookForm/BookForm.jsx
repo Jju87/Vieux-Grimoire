@@ -71,9 +71,13 @@ function BookForm({ book, validate }) {
             alert('Une erreur est survenue lors de la publication du livre');
           }
         } else {
+          console.log('before validate');
           validate(true);
+          console.log('after validate');
         }
+        console.log('before navigate');
         navigate('/');
+        console.log('after navigate');
       } catch (error) {
         setIsLoading(false);
         alert('Une erreur est survenue lors de l\'ajout du livre');
