@@ -9,7 +9,7 @@ import addFileIMG from '../../../images/add_file.png';
 import styles from './BookForm.module.css';
 import { updateBook, addBook } from '../../../lib/common';
 
-function BookForm({ book, validate }) {
+function BookForm({ book }) {
   const userRating = book ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade : 0;
 
   const [rating, setRating] = useState(0);
@@ -70,7 +70,6 @@ function BookForm({ book, validate }) {
             alert('Une erreur est survenue lors de la publication du livre');
           }
         } else {
-          validate(true);
           navigate('/');
         }
       } catch (error) {
