@@ -66,6 +66,7 @@ function BookForm({ book, validate }) {
         console.log('after addBook');
         console.log('before response.json');
         const responseData = await response.json();
+        console.log('response data: ', responseData);
         console.log('after response.json');
         setIsLoading(false);
         console.log('response log :', response);
