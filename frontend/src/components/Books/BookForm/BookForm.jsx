@@ -47,6 +47,7 @@ function BookForm({ book, validate }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleErrorResponse = (error) => {
+    console.log('error: ', error);
     setIsLoading(false);
     console.log('handleErrorResponse called');
     if (error && error.response && error.response.data && error.response.data.error) {
