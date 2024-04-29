@@ -64,7 +64,7 @@ function BookForm({ book, validate }) {
         const response = await addBook(dataCopy);
         setIsLoading(false);
         console.log('Response message:', response.data.message);
-        if (response.data.message !== 'saved!') {
+        if (response.data.message !== 'Saved!') {
           if (response.data.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
           } else {
@@ -97,13 +97,10 @@ function BookForm({ book, validate }) {
     } else {
       try {
         const updatedBookResponse = await updateBook(dataCopy, dataCopy.id);
-        const updatedBookData = await updatedBookResponse.json();
         setIsLoading(false);
-        if (updatedBookResponse.status !== 200 && updatedBookResponse.status !== 201) {
-          if (updatedBookData.error && updatedBookData.error.includes('contient du contenu pour adulte non autorisé')) {
+        if (updatedBookResponse.data.message !== 'Modified!') {
+          if (updatedBookResponse.data.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
-          } else if (updatedBookData.error === 'true') {
-            alert('Votre image n\'est pas autorisée');
           } else {
             alert('Une erreur est survenue lors de la mise à jour du livre');
           }
