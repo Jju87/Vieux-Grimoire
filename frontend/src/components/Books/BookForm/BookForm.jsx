@@ -77,14 +77,16 @@ function BookForm({ book, validate }) {
       try {
         const response = await addBook(dataCopy);
         setIsLoading(false);
-        if (response.data.error) {
-          handleErrorResponse({ response });
-        } else if (response.data.message === 'Saved!') {
-          console.log('before validate');
-          validate(true);
-          console.log('after validate');
-        } else {
-          console.log('Response message:', response.data.message);
+        if (response.data) {
+          if (response.data.error) {
+            handleErrorResponse({ response });
+          } else if (response.data.message === 'Saved!') {
+            console.log('before validate');
+            validate(true);
+            console.log('after validate');
+          } else {
+            console.log('Response message:', response.data.message);
+          }
         }
       } catch (error) {
         handleErrorResponse(error);
