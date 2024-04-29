@@ -49,14 +49,9 @@ function BookForm({ book, validate }) {
   const handleErrorResponse = (error) => {
     setIsLoading(false);
     if (error && error.response && error.response.data) {
-      if (error.response.data.error) {
-        // eslint-disable-next-line prefer-template
-        alert('Erreur: ' + error.response.data.error);
-      } else if (error.response.data.message) {
+      if (error.response.data.message) {
         // eslint-disable-next-line prefer-template
         alert('Erreur: ' + error.response.data.message);
-      } else {
-        console.error('Erreur inconnue');
       }
     } else {
       console.error('Pas de données de réponse');
