@@ -62,7 +62,7 @@ function BookForm({ book, validate }) {
         const responseData = await response.json();
         setIsLoading(false);
         if (responseData.error) {
-          if (response.error.includes('contient du contenu pour adulte non autorisé')) {
+          if (responseData.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
           } else if (response.error === 'true') {
             alert('Votre image n\'est pas autorisée');
