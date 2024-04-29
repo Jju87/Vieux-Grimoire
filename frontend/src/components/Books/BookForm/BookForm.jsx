@@ -47,17 +47,19 @@ function BookForm({ book, validate }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleErrorResponse = (error) => {
-    console.log('error: ', error);
     setIsLoading(false);
-    console.log('handleErrorResponse called');
-    if (error && error.response && error.response.data && error.response.data.error) {
-      if (error.response.data.error.includes('contient du contenu pour adulte non autorisé')) {
-        alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
+    if (error && error.response && error.response.data) {
+      if (error.response.data.error) {
+        // eslint-disable-next-line prefer-template
+        alert('Erreur: ' + error.response.data.error);
+      } else if (error.response.data.message) {
+        // eslint-disable-next-line prefer-template
+        alert('Erreur: ' + error.response.data.message);
       } else {
-        alert('Une erreur est survenue lors de la publication du livre');
+        console.error('Erreur inconnue');
       }
     } else {
-      console.error(error);
+      console.error('Pas de données de réponse');
     }
   };
 
@@ -92,6 +94,7 @@ function BookForm({ book, validate }) {
           console.error('No response data');
         }
       } catch (error) {
+        console.log('erreur attrappée:', error);
         handleErrorResponse(error);
       }
     } else {
