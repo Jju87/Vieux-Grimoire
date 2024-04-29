@@ -37,6 +37,7 @@ function SignIn({ setUser }) {
         storeInLocalStorage(response.data.token, response.data.userId);
         setUser(response.data);
         navigate('/');
+        console.log('User signed in: ', response.data);
       }
     } catch (err) {
       console.log(err);
