@@ -54,7 +54,7 @@ function BookForm({ book, validate }) {
         alert(error.response.data.error);
       }
     } else {
-      console.error('Pas de données de réponse');
+      alert('Votre image comporte du contenu pour adulte non autorisé sur notre application');
     }
   };
 
