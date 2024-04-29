@@ -49,7 +49,7 @@ function BookForm({ book, validate }) {
   const handleErrorResponse = (error) => {
     setIsLoading(false);
     console.log('handleErrorResponse called');
-    if (error.response && error.response.data && error.response.data.error) {
+    if (error && error.response && error.response.data && error.response.data.error) {
       if (error.response.data.error.includes('contient du contenu pour adulte non autorisé')) {
         alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
       } else {
