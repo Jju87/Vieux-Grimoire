@@ -75,11 +75,9 @@ function BookForm({ book, validate }) {
         console.log('after response.json');
         setIsLoading(false);
         console.log('response log :', response);
-        if (response.status !== 200 && response.status !== 201) {
-          if (responseData.error && responseData.error.includes('contient du contenu pour adulte non autorisé')) {
+        if (response.data.message !== 'saved!') {
+          if (response.data.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
-          } else if (responseData.error === 'true') {
-            alert('Votre image n\'est pas autorisée');
           } else {
             alert('Une erreur est survenue lors de la publication du livre');
           }
