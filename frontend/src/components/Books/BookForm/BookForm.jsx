@@ -46,6 +46,20 @@ function BookForm({ book, validate }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleErrorResponse = (error) => {
+    setIsLoading(false);
+    console.log('handleErrorResponse called');
+    if (error.response && error.response.data && error.response.data.error) {
+      if (error.response.data.error.includes('contient du contenu pour adulte non autorisé')) {
+        alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
+      } else {
+        alert('Une erreur est survenue lors de la publication du livre');
+      }
+    } else {
+      console.error(error);
+    }
+  };
+
   const onSubmit = async (data) => {
     console.log('onSubmit called');
     setIsLoading(true);
@@ -63,14 +77,8 @@ function BookForm({ book, validate }) {
       try {
         const response = await addBook(dataCopy);
         setIsLoading(false);
-        console.log('Response message:', response.data.message);
-        console.log('response error: ', response.data.error);
         if (response.data.error) {
-          if (response.data.error.includes('contient du contenu pour adulte non autorisé')) {
-            alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
-          } else {
-            alert('Une erreur est survenue lors de la publication du livre');
-          }
+          handleErrorResponse({ response });
         } else if (response.data.message === 'Saved!') {
           console.log('before validate');
           validate(true);
@@ -79,37 +87,19 @@ function BookForm({ book, validate }) {
           console.log('Response message:', response.data.message);
         }
       } catch (error) {
-        setIsLoading(false);
-        if (error.response && error.response.data) {
-          // La requête a été faite et le serveur a répondu avec un code d'état
-          // qui tombe dans la plage d'erreur 2xx
-          if (error.response.data.error.includes('contient du contenu pour adulte non autorisé')) {
-            alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
-          } else {
-            alert('Une erreur est survenue lors de la publication du livre');
-          }
-        } else {
-          // Quelque chose s'est passé lors de la configuration de la requête
-          console.error(error);
-        }
+        handleErrorResponse(error);
       }
     } else {
       try {
         const updatedBookResponse = await updateBook(dataCopy, dataCopy.id);
         setIsLoading(false);
         if (updatedBookResponse.data.message !== 'Modified!') {
-          if (updatedBookResponse.data.error.includes('contient du contenu pour adulte non autorisé')) {
-            alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
-          } else {
-            alert('Une erreur est survenue lors de la mise à jour du livre');
-          }
+          handleErrorResponse({ response: updatedBookResponse });
         } else {
-          // Validation réussie, rediriger vers la page d'accueil
           navigate('/');
         }
       } catch (error) {
-        setIsLoading(false);
-        alert('Une erreur est survenue lors de la mise à jour du livre');
+        handleErrorResponse(error);
       }
     }
   };
