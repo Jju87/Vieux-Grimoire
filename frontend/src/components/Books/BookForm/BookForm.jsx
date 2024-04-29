@@ -81,13 +81,15 @@ function BookForm({ book, validate }) {
         if (response.data) {
           if (response.data.error) {
             handleErrorResponse({ response });
-          } else if (response.data.message === 'Saved!') {
+          } else if (response.data.message && response.data.message === 'Saved!') {
             console.log('before validate');
             validate(true);
             console.log('after validate');
           } else {
             console.log('Response message:', response.data.message);
           }
+        } else {
+          console.error('No response data');
         }
       } catch (error) {
         handleErrorResponse(error);
