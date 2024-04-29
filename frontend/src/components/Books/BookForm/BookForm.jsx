@@ -61,20 +61,9 @@ function BookForm({ book, validate }) {
         dataCopy.rating = 0;
       }
       try {
-        console.log('before addBook');
         const response = await addBook(dataCopy);
-        console.log('after addBook');
-        console.log('before response.json');
-        let responseData;
-        try {
-          responseData = await response.json();
-          console.log('response data: ', responseData);
-        } catch (error) {
-          console.log('error parsing response: ', error);
-        }
-        console.log('after response.json');
         setIsLoading(false);
-        console.log('response log :', response);
+        console.log('Response message:', response.data.message);
         if (response.data.message !== 'saved!') {
           if (response.data.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
@@ -86,12 +75,24 @@ function BookForm({ book, validate }) {
           validate(true);
           console.log('after validate');
         }
-        console.log('before navigate');
-        navigate('/');
-        console.log('after navigate');
       } catch (error) {
         setIsLoading(false);
-        alert('Une erreur est survenue lors de l\'ajout du livre');
+        if (error.response) {
+          // La requête a été faite et le serveur a répondu avec un code d'état
+          // qui tombe dans la plage d'erreur 2xx
+          console.log(error.response.data);
+          if (error.response.data.error.includes('contient du contenu pour adulte non autorisé')) {
+            alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
+          } else {
+            alert('Une erreur est survenue lors de la publication du livre');
+          }
+        } else if (error.request) {
+          // La requête a été faite mais aucune réponse n'a été reçue
+          console.log(error.request);
+        } else {
+          // Quelque chose s'est passé lors de la configuration de la requête
+          console.log('Error', error.message);
+        }
       }
     } else {
       try {
