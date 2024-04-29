@@ -58,8 +58,12 @@ function BookForm({ book, validate }) {
         dataCopy.rating = 0;
       }
       try {
+        console.log('before addBook');
         const response = await addBook(dataCopy);
+        console.log('after addBook');
+        console.log('before response.json');
         const responseData = await response.json();
+        console.log('after response.json');
         setIsLoading(false);
         console.log('response log :', response);
         if (response.status !== 200 && response.status !== 201) {
