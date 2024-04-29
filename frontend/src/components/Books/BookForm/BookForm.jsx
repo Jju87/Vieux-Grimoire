@@ -62,7 +62,7 @@ function BookForm({ book, validate }) {
         const responseData = await response.json();
         setIsLoading(false);
         console.log('responsableData.error:', responseData.error);
-        if (responseData.error) {
+        if (!responseData.message) {
           if (responseData.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
           } else if (response.error === 'true') {
@@ -72,8 +72,8 @@ function BookForm({ book, validate }) {
           }
         } else {
           validate(true);
-          navigate('/');
         }
+        navigate('/');
       } catch (error) {
         setIsLoading(false);
         alert('Une erreur est survenue lors de l\'ajout du livre');
