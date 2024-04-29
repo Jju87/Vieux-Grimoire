@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-console, no-alert */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as PropTypes from 'prop-types';
@@ -46,7 +47,9 @@ function BookForm({ book, validate }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    console.log('onSubmit called');
     setIsLoading(true);
+    console.log('before creating datacopy');
     const dataCopy = { ...data };
     if (!book) {
       if (!dataCopy.file[0]) {
