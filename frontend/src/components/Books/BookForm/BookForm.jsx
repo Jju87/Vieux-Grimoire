@@ -9,7 +9,7 @@ import addFileIMG from '../../../images/add_file.png';
 import styles from './BookForm.module.css';
 import { updateBook, addBook } from '../../../lib/common';
 
-function BookForm({ book }) {
+function BookForm({ book, validate }) {
   const userRating = book ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade : 0;
 
   const [rating, setRating] = useState(0);
@@ -61,6 +61,7 @@ function BookForm({ book }) {
         const response = await addBook(dataCopy);
         const responseData = await response.json();
         setIsLoading(false);
+        console.log('responsableData.error:', responseData.error);
         if (responseData.error) {
           if (responseData.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
@@ -70,6 +71,7 @@ function BookForm({ book }) {
             alert('Une erreur est survenue lors de la publication du livre');
           }
         } else {
+          validate(true);
           navigate('/');
         }
       } catch (error) {
