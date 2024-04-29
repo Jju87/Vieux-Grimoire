@@ -86,7 +86,7 @@ function BookForm({ book, validate }) {
             console.log('Response message:', response.data.message);
           }
         } else {
-          console.error('No response data');
+          alert('Votre image comporte du contenu pour adulte non autorisé sur notre application');
         }
       } catch (error) {
         console.log('erreur attrappée:', error);
