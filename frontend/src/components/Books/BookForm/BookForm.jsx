@@ -64,34 +64,33 @@ function BookForm({ book, validate }) {
         const response = await addBook(dataCopy);
         setIsLoading(false);
         console.log('Response message:', response.data.message);
-        if (response.data.message !== 'Saved!') {
+        console.log('response error: ', response.data.error);
+        if (response.data.error) {
           if (response.data.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
           } else {
             alert('Une erreur est survenue lors de la publication du livre');
           }
-        } else {
+        } else if (response.data.message === 'Saved!') {
           console.log('before validate');
           validate(true);
           console.log('after validate');
+        } else {
+          console.log('Response message:', response.data.message);
         }
       } catch (error) {
         setIsLoading(false);
-        if (error.response) {
+        if (error.response && error.response.data) {
           // La requête a été faite et le serveur a répondu avec un code d'état
           // qui tombe dans la plage d'erreur 2xx
-          console.log(error.response.data);
           if (error.response.data.error.includes('contient du contenu pour adulte non autorisé')) {
             alert('Votre image contient du contenu pour adulte non autorisé sur notre application');
           } else {
             alert('Une erreur est survenue lors de la publication du livre');
           }
-        } else if (error.request) {
-          // La requête a été faite mais aucune réponse n'a été reçue
-          console.log(error.request);
         } else {
           // Quelque chose s'est passé lors de la configuration de la requête
-          console.log('Error', error.message);
+          console.error(error);
         }
       }
     } else {
