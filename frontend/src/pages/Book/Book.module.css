@@ -65,9 +65,7 @@
     flex-direction: column;
 }
 
-.Owner {
 
-}
 .BookInfo {
     display: grid;
     width: 100%;
@@ -111,6 +109,10 @@
 }
 .Rating div {
     padding: 5px;
+}
+
+.summaryContainer{
+    color: red;
 }
 
 .Book form {
