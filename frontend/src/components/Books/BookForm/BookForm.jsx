@@ -69,6 +69,26 @@ function BookForm({ book, validate }) {
         setIsLoading(false);
         return;
       }
+      if (!dataCopy.title) {
+        alert('Vous devez ajouter un titre');
+        setIsLoading(false);
+        return;
+      }
+      if (!dataCopy.author) {
+        alert('Vous devez ajouter un auteur');
+        setIsLoading(false);
+        return;
+      }
+      if (!dataCopy.year) {
+        alert('Vous devez ajouter une année');
+        setIsLoading(false);
+        return;
+      }
+      if(!dataCopy.genre) {
+        alert('Vous devez ajouter un genre');
+        setIsLoading(false);
+        return;
+      }
       if (!dataCopy.rating) {
         dataCopy.rating = 0;
       }
