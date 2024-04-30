@@ -16,7 +16,7 @@ function BookInfo({ book }) {
           <p>{`${book.averageRating}/5`}</p>
         </div>
       </div>
-      <div className="summaryContainer">
+      <div className={styles.summaryContainer}>
         <h2>À propos de ce livre</h2>
         <p className={styles.Summary}>{book.summary}</p>
       </div>
