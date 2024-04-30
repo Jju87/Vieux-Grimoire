@@ -84,7 +84,7 @@ function BookForm({ book, validate }) {
         setIsLoading(false);
         return;
       }
-      if(!dataCopy.genre) {
+      if (!dataCopy.genre) {
         alert('Vous devez ajouter un genre');
         setIsLoading(false);
         return;
