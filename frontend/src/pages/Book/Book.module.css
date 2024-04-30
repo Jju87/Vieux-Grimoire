@@ -112,7 +112,15 @@
 }
 
 .summaryContainer{
-    color: red;
+    border: 1px solid;
+}
+
+.summaryContainer h2{
+    font-size: 22px;
+}
+
+.summaryContainer p{
+    padding: 20px;
 }
 
 .Book form {
@@ -175,7 +183,7 @@
     }
     .BookImage {
         height: 300px;
-        width: 100%;
+        width: 90%;
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center center;
