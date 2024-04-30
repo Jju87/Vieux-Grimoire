@@ -25,7 +25,7 @@ function AddBook() {
       <div className={styles.Container}>
         {!created ? (
           <>
-            <h1>Ajouter un livre</h1>
+            <h1 className="addBook-title">Ajouter un livre</h1>
             <p>tous les champs sont obligatoires</p>
             <BookForm validate={setCreated} />
           </>

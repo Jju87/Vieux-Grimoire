@@ -1,6 +1,6 @@
 .Home {
- position: relative;padding-top: 131px;
-
+ position: relative;
+ padding-top: 131px;
 }
 
 .banner {
@@ -52,4 +52,29 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin-block: 140px;
+}
+
+@media screen and (max-width: 600px) {
+
+    .Home {
+        position: relative;
+        padding-top: 60px;
+       }
+
+    .Home header{
+        padding-bottom: 40px;
+    }
+
+    .Home header h1 {
+        font-size: 30px;
+    }
+
+    .Home header p {
+        font-size: 20px;
+    }
+
+    .bookList {
+        margin-block: 50px;
+    }
+    
 }

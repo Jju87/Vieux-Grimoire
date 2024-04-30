@@ -7,13 +7,14 @@ function BookInfo({ book }) {
   return (
     <div className={styles.BookInfo}>
       <h1>{book.title}</h1>
-      <p className={styles.Author}>{`par ${book.author}`}</p>
+      <p className={styles.Author}>{`Auteur: ${book.author}`}</p>
       <p className={styles.PublishDate}>{book.year}</p>
       <p className={styles.Genre}>{book.genre}</p>
       <div className={styles.Rating}>
         <div>{displayStars(book.averageRating)}</div>
         <p>{`${book.averageRating}/5`}</p>
       </div>
+      <p className={styles.Summary}>{book.summary}</p>
     </div>
   );
 }
@@ -31,6 +32,7 @@ BookInfo.propTypes = {
       userId: PropTypes.string,
       grade: PropTypes.number,
     })),
+    summary: PropTypes.string,
     averageRating: PropTypes.number,
   }).isRequired,
 };

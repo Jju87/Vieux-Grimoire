@@ -1,6 +1,6 @@
 .Form{
     background-color: #F9F3EE;
-    width: 30%;
+    width: 40%;
     margin: auto;
     padding: 50px;
     align-items: center;
@@ -39,9 +39,22 @@
     display: flex;
     align-items: center;
     margin-bottom: 35px;
-
+    padding: 10px;
+    box-sizing: border-box;
 }
 
+.Form textarea {
+    height: 200px;
+    min-height: 100px;
+    max-height: 600px;
+    width: 98%;
+    margin-bottom: 35px;
+    resize: vertical;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+    font-size: 17px;
+}
 
 .Stars, .Stars label{
     display: flex;
@@ -74,8 +87,21 @@
     font-size: 16px;
 }
 
-@media all and (max-width: 1300px) {
+@media all and (max-width:800px) {
     .Form {
-        width: 70%;
+        width: 65%;
+    }
+
+    .AddImage {
+        justify-content: center;
+        padding: 10px 10px;
+    }
+
+    .AddImage img {
+        margin-right: 10px;
+    }
+
+    .AddImage p {
+        font-size: 14px;
     }
 }

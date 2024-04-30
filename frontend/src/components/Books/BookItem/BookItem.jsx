@@ -49,6 +49,7 @@ BookItem.propTypes = {
       userId: PropTypes.string,
       grade: PropTypes.number,
     })),
+    summary: PropTypes.string,
     averageRating: PropTypes.number,
   }).isRequired,
 };

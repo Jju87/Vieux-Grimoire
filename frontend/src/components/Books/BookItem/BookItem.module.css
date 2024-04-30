@@ -21,11 +21,9 @@
     font-family: "Libre Baskerville", serif;
     margin-bottom: 10px ;
 }
-
 .BookImage {
     width: 206px;
     height: 260px;
-    object-position: center;
     object-fit: cover;
 }
 .BookItem h3 {
@@ -61,7 +59,44 @@
 }
 
 @media all and (max-width: 600px) {
+    .BookItem{
+        max-width: 320px;
+        width: 92%;
+        height: 250px;
+        margin-bottom: 45px;
+    }
+    .BookItem article {
+        width: 100%;
+        max-width:320px;
+    }
+   
     .BookItem img {
         width: 50%;
+        border-radius: 10px;
+        height: 215px;
+        min-width: 50%;
+    }
+
+    .BookItem h2 {
+        font-size: 16px;
+        margin-bottom: 5px ;
+    }
+    
+    .BookItem p {
+        font-size: 12px;
+        margin-bottom: 5px ;
+    }
+    .full {
+        font-size: 16px;
+    }
+    .empty {
+        font-size: 16px;
+    }
+    .BookInfo {
+        margin-left: 5px;
+    }
+    .Rating{
+        margin-bottom: 10px;
+        width: 80%
     }
 }

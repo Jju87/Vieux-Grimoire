@@ -125,6 +125,7 @@ export async function addBook(data) {
       userId,
       grade: data.rating ? parseInt(data.rating, 10) : 0,
     }],
+    summary: data.summary,
     averageRating: parseInt(data.rating, 10),
   };
   const bodyFormData = new FormData();
@@ -156,6 +157,7 @@ export async function updateBook(data, id) {
     author: data.author,
     year: data.year,
     genre: data.genre,
+    summary: data.summary,
   };
   console.log(data.file[0]);
   if (data.file[0]) {

@@ -24,6 +24,7 @@ function BookForm({ book, validate }) {
       author: book?.author,
       year: book?.year,
       genre: book?.genre,
+      summary: book?.summary,
     }), [book]),
   });
   useEffect(() => {
@@ -59,9 +60,7 @@ function BookForm({ book, validate }) {
   };
 
   const onSubmit = async (data) => {
-    console.log('onSubmit called');
     setIsLoading(true);
-    console.log('before creating datacopy');
     const dataCopy = { ...data };
     if (!book) {
       if (!dataCopy.file[0]) {
@@ -99,17 +98,15 @@ function BookForm({ book, validate }) {
           if (response.data.error) {
             handleErrorResponse({ response });
           } else if (response.data.message && response.data.message === 'Saved!') {
-            console.log('before validate');
             validate(true);
-            console.log('after validate');
+            // console.log('after validate');
           } else {
-            console.log('Response message:', response.data.message);
+            // console.log('Response message:', response.data.message);
           }
         } else {
           alert('Votre image comporte du contenu pour adulte non autorisé sur notre application');
         }
       } catch (error) {
-        console.log('erreur attrappée:', error);
         handleErrorResponse(error);
       }
     } else {
@@ -146,6 +143,10 @@ function BookForm({ book, validate }) {
       <label htmlFor="genre">
         <p>Genre</p>
         <input type="text" id="genre" {...register('genre')} />
+      </label>
+      <label htmlFor="summary">
+        <p>À propos de ce livre</p>
+        <textarea id="summary" {...register('summary')} />
       </label>
       <label htmlFor="rate">
         <p>Note</p>
@@ -189,6 +190,7 @@ BookForm.propTypes = {
       userId: PropTypes.string,
       grade: PropTypes.number,
     })),
+    summary: PropTypes.string,
     averageRating: PropTypes.number,
   }),
   validate: PropTypes.func,
