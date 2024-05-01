@@ -8,7 +8,7 @@
     background-color: #FFFFFF;
     margin: auto;
     border-radius: 7px;
-    box-shadow:  0 4px 34px rgba(0, 0, 0, 0.07);
+    box-shadow:  0 4px 34px rgba(0, 0, 0, 0.29);
     box-sizing: border-box;
 }
 
@@ -32,6 +32,20 @@
 
 }
 
+.Deleted img{
+    max-width: 100;
+}
+.Owner {
+    height: 50px;
+    width: 250px;
+    margin-bottom: 40px;
+    text-align: center;
+    background-color: #F9F3EE;
+    color: #2C1810;
+    font-family: "DM Sans", sans-serif;
+    padding: 13px;
+}
+
 .Deleted h1 {
 
     font-size: 44px;
@@ -48,29 +62,29 @@
     margin-bottom: 75px;
 }
 .BookImage {
-    width: calc(40% - 80px);
+    width: calc(40% - 40px);
     background-position: center;
     background-size: cover;
-    margin-right: 80px;
+    margin-right: 0px;
     margin-left: 120px;
 }
 .Book img {
-    width: 40%;
-    padding-right: 80px;
-    padding-left: 120px;
-}
-.BookContent {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
+    width: 50%;
 }
 
+.BookContent {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
 
 .BookInfo {
     display: grid;
     width: 100%;
     max-width: 465px;
-    grid-template-rows: 125px 65px 65px;
+    grid-template-rows: 100px 40px 60px;
     grid-template-columns: 1fr 1fr 1fr;
     box-sizing: border-box;
     gap: 1px;
@@ -90,11 +104,15 @@
 .Author {
     grid-column-start: 1;
     grid-column-end: 3;
-    padding: 20px;
+    padding: 5px;
+}
+
+.Genre{
+    grid-column-start: 1;
+    grid-column-end: 2;
 }
 
 .PublishDate, .Genre, .Rating {
-    justify-content: center;
     padding: 5px;
 }
 
@@ -112,15 +130,28 @@
 }
 
 .summaryContainer{
-    border: 1px solid;
+    margin-top: 25px;
+    width: 100%;
+    margin: auto;
+    box-sizing: border-box;
+    max-width: 465px;
+    padding: 10px;
+    position: relative;
+
 }
 
 .summaryContainer h2{
-    font-size: 22px;
+    font-size: 18px;
+    font-style: italic;
+    font-family: "Libre Baskerville", serif;
 }
 
 .summaryContainer p{
-    padding: 20px;
+    width: 90%;
+    text-align: justify;
+    position: absolute;
+    top: 40px;
+    right: 15px;
 }
 
 .Book form {
@@ -156,14 +187,10 @@
     display: flex;
     margin-bottom: 22px;
 }
-.Owner {
-    color: #2C1810;
-    font-family: "DM Sans", sans-serif;
-    padding: 20px;
-}
+
 
 .Owner p {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .Owner a {
@@ -192,13 +219,23 @@
     .BookContent {
         align-items: center;
         margin-top: 2em;
-    }
+        width: 80%;
+    }    
 
 }
 
 @media all and (max-width: 600px) {
     .BookContent {
         width: 90%;
+    }
+    .Owner {
+        height: 50px;
+        width: 200px;
+        margin-bottom: 30px;
+        padding: 10px;
+    }
+    .Owner p {
+        font-size: 14px;
     }
 
 }

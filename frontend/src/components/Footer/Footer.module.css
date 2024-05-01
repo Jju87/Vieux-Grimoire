@@ -7,7 +7,9 @@
     align-items: center;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: #2C1810
+    color: #2C1810;
+    box-shadow:  0 4px 34px rgba(0, 0, 0, 0.29);
+
 }
 
 .MapBlock {

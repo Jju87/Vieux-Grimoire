@@ -17,7 +17,7 @@ function BookInfo({ book }) {
         </div>
       </div>
       <div className={styles.summaryContainer}>
-        <h2>À propos de ce livre</h2>
+        <h2>À propos de ce livre: </h2>
         <p className={styles.Summary}>{book.summary}</p>
       </div>
     </>

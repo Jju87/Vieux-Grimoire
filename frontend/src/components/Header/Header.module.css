@@ -4,6 +4,8 @@
     min-height: 91px;
     display: flex;
     align-items: center;
+    box-shadow:  0 4px 34px rgba(0, 0, 0, 0.29);
+
 }
 
 .Header div {
