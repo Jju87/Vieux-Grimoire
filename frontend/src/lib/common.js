@@ -165,7 +165,7 @@ export async function updateBook(data, id) {
     newData.append('book', JSON.stringify(book));
     newData.append('image', data.file[0]);
   } else {
-    newData = { ...book };
+    newData = { book: JSON.stringify(book)};
   }
 
   try {
