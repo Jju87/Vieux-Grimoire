@@ -160,7 +160,7 @@ export async function updateBook(data, id) {
     summary: data.summary,
   };
   console.log(data.file[0]);
-  if (data.file[0]) {
+  if (data.file && data.file[0]) {
     newData = new FormData();
     newData.append('book', JSON.stringify(book));
     newData.append('image', data.file[0]);
@@ -180,6 +180,6 @@ export async function updateBook(data, id) {
     return newBook;
   } catch (err) {
     console.error(err);
-    return { error: true, message: err.message };
+    return { error: true, message: err };
   }
 }
