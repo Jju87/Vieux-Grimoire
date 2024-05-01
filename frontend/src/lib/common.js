@@ -160,6 +160,7 @@ export async function updateBook(data, id) {
     summary: data.summary,
   };
   console.log(data.file[0]);
+  console.log(book);
   if (data.file && data.file[0]) {
     newData = new FormData();
     newData.append('book', JSON.stringify(book));
@@ -167,6 +168,7 @@ export async function updateBook(data, id) {
   } else {
     newData = { book: JSON.stringify(book) };
   }
+  console.log(newData);
 
   try {
     const newBook = await axios({
