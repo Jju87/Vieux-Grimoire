@@ -12,6 +12,9 @@ cloudinary.config({
 });
 
 const uploadToCloudinary = (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
   const file = req.file;
   const imageContent = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
 
