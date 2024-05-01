@@ -33,7 +33,7 @@
 }
 
 .Deleted img{
-    max-width: 100;
+    max-width: 100%;
 }
 .Owner {
     height: 50px;
@@ -60,6 +60,7 @@
 
 .Deleted img {
     margin-bottom: 75px;
+    max-width: 100%;
 }
 .BookImage {
     width: calc(40% - 40px);
@@ -93,6 +94,7 @@
     outline: 1px solid #F9F3EE;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .BookInfo h1 {
     grid-column-start: 1;
@@ -132,11 +134,11 @@
 .summaryContainer{
     margin-top: 25px;
     width: 100%;
-    margin: auto;
     box-sizing: border-box;
     max-width: 465px;
     padding: 10px;
-    position: relative;
+    background-color:#F9F3EE;
+    border-radius: 10px;
 
 }
 
@@ -144,14 +146,17 @@
     font-size: 18px;
     font-style: italic;
     font-family: "Libre Baskerville", serif;
+    color: #D9A963;
 }
 
 .summaryContainer p{
     width: 90%;
     text-align: justify;
-    position: absolute;
-    top: 40px;
-    right: 15px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right:10px;
+    padding-bottom: 10px;
+
 }
 
 .Book form {

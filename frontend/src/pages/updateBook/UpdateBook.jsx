@@ -38,7 +38,7 @@ function UpdateBook() {
         {!created ? (
           <>
             <h1>Modifier votre livre</h1>
-            <p>Vous pouvez modifier tous les champs sauf la note donnée</p>
+            <p>Vous pouvez tout modifier sauf la note</p>
             <BookForm book={book} validate={setCreated} />
           </>
         ) : (
