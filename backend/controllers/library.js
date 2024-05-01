@@ -65,6 +65,9 @@ exports.getOneBook = (req, res, next) => {
 };
 
 exports.modifyBook = async (req, res, next) => {
+  if (!req.body.book) {
+    return res.status(400).json({ error: 'No book provided in request body' });
+  }
   const bookObject = JSON.parse(req.body.book);
   const userId = req.auth.userId;
 
