@@ -104,10 +104,11 @@ function SignIn({ setUser }) {
         <div className={styles.Submit}>
           <button
             type="submit"
-            className="
-            flex justify-center
-            p-2 rounded-md w-1/2 self-center
-            bg-gray-800  text-white hover:bg-gray-800"
+            id="connect-btn"
+            className={`
+            flex justify-center p-2 rounded-md 
+            w-1/2 self-center bg-gray-800  
+            text-white hover:bg-gray-800 ${styles.Submitconnect}`}
             onClick={signIn}
           >
             {isLoading ? <div className="" /> : null}

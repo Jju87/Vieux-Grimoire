@@ -1,14 +1,14 @@
 @keyframes pulse {
     0% {
-      transform: scale(0.95);
+      transform: scale(0.97);
     }
     50% {
-      transform: scale(1);
+      transform: scale(1.01);
       box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.15);
       color: rgb(105, 91, 91);
     }
     100% {
-      transform: scale(0.95);
+      transform: scale(0.97);
     }
   }
 
@@ -61,7 +61,7 @@
 }
 
 .Home header a{
-    animation: pulse 3s infinite;
+    animation: pulse 2100ms infinite;
 }
 
 
