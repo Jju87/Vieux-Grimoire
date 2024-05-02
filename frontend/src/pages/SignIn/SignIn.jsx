@@ -36,7 +36,7 @@ function SignIn({ setUser }) {
       } else {
         storeInLocalStorage(response.data.token, response.data.userId);
         setUser(response.data);
-        navigate('/');
+        navigate('/Ajouter');
         console.log('User signed in: ', response.data);
       }
     } catch (err) {
@@ -111,10 +111,7 @@ function SignIn({ setUser }) {
             text-white hover:bg-gray-800 ${styles.Submitconnect}`}
             onClick={signIn}
           >
-            {isLoading ? <div className="" /> : null}
-            <span>
-              Se connecter
-            </span>
+            {isLoading ? <span>Connexion...</span> : <span>Se connecter</span>}
           </button>
           <span>OU</span>
           <button

@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-console, no-alert */
 import React, { useEffect, useMemo, useState } from 'react';
@@ -130,23 +131,23 @@ function BookForm({ book, validate }) {
       <input type="hidden" id="id" {...register('id')} />
       <label htmlFor="title">
         <p>Titre du livre</p>
-        <input type="text" id="title" {...register('title')} />
+        <input type="text" id="title" {...register('title')} defaultValue="Le petit prince" onFocus={(e) => { if (e.target.defaultValue === e.target.value) e.target.value = ''; }} />
       </label>
       <label htmlFor="author">
         <p>Auteur</p>
-        <input type="text" id="author" {...register('author')} />
+        <input type="text" id="author" {...register('author')} defaultValue="Antoine de Saint-Exupéry" onFocus={(e) => { if (e.target.defaultValue === e.target.value) e.target.value = ''; }} />
       </label>
       <label htmlFor="year">
         <p>Année de publication</p>
-        <input type="text" id="year" {...register('year')} />
+        <input type="text" id="year" {...register('year')} defaultValue="1946" onFocus={(e) => { if (e.target.defaultValue === e.target.value) e.target.value = ''; }} />
       </label>
       <label htmlFor="genre">
         <p>Genre</p>
-        <input type="text" id="genre" {...register('genre')} />
+        <input type="text" id="genre" {...register('genre')} defaultValue="Fable" onFocus={(e) => { if (e.target.defaultValue === e.target.value) e.target.value = ''; }} />
       </label>
       <label htmlFor="summary">
         <p>À propos de ce livre</p>
-        <textarea id="summary" {...register('summary')} />
+        <textarea id="summary" {...register('summary')} defaultValue="C'est un petit garçon qui vit seul sur une planète lointaine. Amoureux d'une rose très capricieuse, il part en voyage sur d'autres planètes à la recherche d'amis. Il croise différents personnages : un homme d'affaires, un roi, un géographe, un renard… qui vont tous lui apprendre quelque chose..." onFocus={(e) => { if (e.target.defaultValue === e.target.value) e.target.value = ''; }} />
       </label>
       <label htmlFor="rate">
         <p>Note</p>

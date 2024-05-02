@@ -8,7 +8,7 @@ function BookInfo({ book }) {
     <>
       <div className={styles.BookInfo}>
         <h1>{book.title}</h1>
-        <p className={styles.Author}>{`Auteur: ${book.author}`}</p>
+        <p className={styles.Author}>{book.author}</p>
         <p className={styles.PublishDate}>{book.year}</p>
         <p className={styles.Genre}>{book.genre}</p>
         <div className={styles.Rating}>
