@@ -28,6 +28,7 @@ Several additions have been made:
 - **Content Moderation**: A new middleware has been introduced to implement a content moderation logic. Images are now moderated through interaction with an API that utilizes AI to analyze if the images contain inappropriate content, such as adult material. Based on the API's response, images are either approved or rejected. 
 
 **Feel free to interact and publish, modify, or delete content using the pre-filled demo account provided at signin!**
+
 https://vieux-grimoire.vercel.app/
 
 Thank you!
